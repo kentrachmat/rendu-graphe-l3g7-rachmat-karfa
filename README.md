@@ -8,3 +8,19 @@ Ce travail est à réaliser en équipe dont les membres sont (**groupe 7 du S5 L
 
 - BENEDICTUS KENT **RACHMAT**
 - HICHEM **KARFA**
+
+# Arborescence du projet
+
+```
+.
+├── README.md
+└── Rapport-KARFA-RACHMAT.pdf
+
+0 directories, 2 files
+```
+
+# Organisation du fichier
+
+Le DM se répartir de la façon suivante :
+
+- Le fichier `Rapport-KARFA-RACHMAT.pdf` est notre compte rendu de ce DM ([lien](Rapport-KARFA-RACHMAT.pdf)).
