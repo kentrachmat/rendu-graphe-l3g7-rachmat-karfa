@@ -22,9 +22,9 @@ Ce travail est à réaliser en équipe dont les membres sont (**groupe 7 du S5 L
 ├── Rapport-KARFA-RACHMAT.pdf
 └── code
     ├── functions.py
-    ├── carte.py
+    ├── map.py
     ├── data
-    │   ├── carte_data.txt
+    │   ├── map_data.txt
     │   ├── gsm_data.txt
     │   └── sudoku_data.txt
     ├── gsm.py
@@ -50,7 +50,7 @@ Pour le sujet de Sudoku
 $ > make sudoku
 
 Pour le sujet de Cartes Géographiques
-$ > make carte
+$ > make map
 
 Pour le sujet de Allocation de fréquences dans les réseaux GSM
 $ > make gsm

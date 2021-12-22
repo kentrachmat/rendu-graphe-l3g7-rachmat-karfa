@@ -1,4 +1,4 @@
-import functions as ft
+import algorithms as ft
 import networkx as nx
 import time as tm
 import sys

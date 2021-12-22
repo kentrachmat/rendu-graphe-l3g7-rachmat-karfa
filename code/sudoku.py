@@ -1,4 +1,4 @@
-import functions as ft
+import algorithms as ft
 import networkx as nx
 import time as tm
 import sys
@@ -22,14 +22,15 @@ def main():
 
     #associer la couleur et la valeur du sudoku
     for i in data:
+        #ici i[1] est l'ordonnee et i[0] est l'ordonnee, on a mis -1 car la première ligne et colonne des données est 1 au lieu de 0
         S.nodes[(9 * (i[1] - 1)) + (i[0] - 1)]["color"] = i[2]
 
-    #menu pour l'utilisateur afin qu'il puisse choisir l'algorithme pour résoudre le problème 
+    #un menu pour l'utilisateur afin qu'il puisse choisir l'algorithme pour résoudre le problème 
     while ans != "1" and ans != "2" and ans != "3":
         print("-- Veuillez choisir l'algorithme pour résoudre ce problème de sudoku --")
         print("1. Glouton")
         print("2. Glouton Naïf")
-        print("3. Sudoku Solver")
+        print("3. Sudoku Solver (backtracking)")
         ans = input("input : ")
 
     #enregistrer le temps (début)
@@ -61,6 +62,7 @@ def main():
     ft.createFileSudoku(S,sys.argv[4])
 
     tm.sleep(2)
+
     #créer le graph
     ft.showGraph(S)
 if __name__ == "__main__":

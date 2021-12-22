@@ -165,7 +165,7 @@ def glouton(S):
             treat_sommet = 0
             associate_color += 1
 
-def sudoku_neighbors_check(S):
+def check_sudoku_color(S):
     """
     vérifie si le graphe si le sommet et le voisin ont la même couleur, 
     renvoie False s'ils en ont et True sinon
@@ -186,21 +186,36 @@ def color_check(S, sommet, color):
             return False
     return True
 
-def sudoku_solver(S, sommet):
-    dict_sommet_degree            = {}
-    list_sommet,list_sommet_color = [],[]
-    associate_color               = 1
-    treat_sommet                  = 0
-    for sommet in S.nodes() :
-        dict_sommet_degree[sommet] = S.degree[sommet]
-    list_sommet = sorted(dict_sommet_degree.keys(), key = dict_sommet_degree.get, reverse = True)
-    while S.number_of_nodes() > len(list_sommet_color):
-        for i in nx.neighbors(S, list_sommet[treat_sommet]):
+def sudoku_solver(G, sommet):
+    """
+    cet algorithme est basé sur la méthode de backtracking.
+    pour colorer un sommet, on lance un backtracking avec un graphe un peu plus complet 
+    et puis on recommence jusqu'a ce que le graphe soit complet. Si on tombe sur un cas ou on ne peut plus colorer le sudoku, 
+    et que le sudoku n'est pas fini, on fait un return pour returner sur le graphe précédent.
+    """
+    #
+    if sommet > 80:
+        G = sudoku_solver(G, (sommet % 9) + 1)
+        return G
 
-            if treat_sommet == len(list_sommet):
-                for sommet in list_sommet_color:
-                    if sommet in list_sommet:
-                        list_sommet.remove(sommet)
+    #
+    if (sommet + 1) == G.number_of_nodes():
+        if G.nodes[sommet]["color"] == 0:
+            for color in range(1, 10):
+                if color_check(G, sommet, color):
+                    G.nodes[sommet]["color"] = color
+        return G
 
-                treat_sommet = 0
-                associate_color += 1
+    if G.nodes[sommet]["color"] == 0:
+        for color in range(1, 10):
+            if color_check(G, sommet, color):
+                G.nodes[sommet]["color"] = color
+                G = sudoku_solver(G, sommet + 9)
+                if check_sudoku_color(G):
+                    return G
+                G.nodes[sommet]["color"] = 0
+    
+    else:
+        #
+        G = sudoku_solver(G, sommet + 9)
+    return G
