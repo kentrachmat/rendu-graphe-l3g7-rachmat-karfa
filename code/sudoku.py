@@ -20,22 +20,16 @@ def main():
     for sommet in S.nodes :
         S.nodes[sommet]["color"] = 0
 
-
-    for i in range(1,10):
-        for j in range(1,10):
-            if(data[0][0] == i and data[0][1] == j):
-                colors.append(color_listes[ data[0][2] ])
-                del data[0]
-            else :
-                colors.append(color_listes[0])
-
-    ft.showGraph(S)
+    #associer la couleur et la valeur du sudoku
+    for i in data:
+        S.nodes[(9 * (i[1] - 1)) + (i[0] - 1)]["color"] = i[2]
 
     #menu pour l'utilisateur afin qu'il puisse choisir l'algorithme pour résoudre le problème 
-    while ans != "1" and ans != "2":
+    while ans != "1" and ans != "2" and ans != "3":
         print("-- Veuillez choisir l'algorithme pour résoudre ce problème de sudoku --")
         print("1. Glouton")
         print("2. Glouton Naïf")
+        print("3. Sudoku Solver")
         ans = input("input : ")
 
     #enregistrer le temps (début)
@@ -45,9 +39,12 @@ def main():
     if(ans == "1"):
         ans = "Glouton"
         ft.glouton(S)
-    else:
+    elif(ans == "2"):
         ans = "Glouton Naïf"
         ft.glouton_naif(S)
+    else:
+        ans = "Sudoku Solver"
+        ft.sudoku_solver(S,0)
 
     #enregistrer le temps (fin)
     fin     = tm.time()
@@ -59,7 +56,13 @@ def main():
     print("Les données du problème est dans : {}".format(sys.argv[2]))
     print("Le temps de l'algorithme : {} s".format(round((fin - debut), 10)))
     print("Le graphique sera affiché dans une nouvelle fenêtre")
+    
+    #créer le fichier de sortie avec le code couleur associé aux données 
+    ft.createFileSudoku(S,sys.argv[4])
 
+    tm.sleep(2)
+    #créer le graph
+    ft.showGraph(S)
 if __name__ == "__main__":
 
     #vérifier si les arguments sont corrects ou non

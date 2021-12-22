@@ -18,11 +18,18 @@ def openFileSudoku(datas):
             sys.exit("Format donnee incorrecte !!")
     return data
 
-def createFile(S, datas):
+def createFileSudoku(S, datas):
+    """
+    créer le fichier de sortie où 
+    la première est l'abscisse 
+    la deuxième est l'ordonnee et
+    la troisième est la valeur
+    """
     with open(datas, 'w') as f:
         for i in range(1,10):
             for j in range(1,10):
-                f.write("{} {} {}\n".format(i,j,0))
+                f.write("{} {} {}\n".format(i,j,S.nodes[(9 * (j - 1)) + (i - 1)]["color"]))
+    f.close()
 
 def openFile(datas):
     """
@@ -42,7 +49,7 @@ def openFile(datas):
 
 def createFile(S, datas):
     """
-    créer le fichier de sortie où la première colonne est les nœuds 
+    créer le fichier de sortie où la première colonne est les sommet 
     et la deuxième colonne est le code couleur
     """
     with open(datas, 'w') as f:
@@ -79,13 +86,13 @@ def get_color(key):
     }
     return color_listes.get(key)
 
-def glouton_naif(S) :
+def glouton_naif(S):
     list_sommet,list_sommet_color = [],[]
     associate_color               = 1
     treat_sommet                  = 0
 
     #mettre tous les sommets dans une liste
-    for sommet in S.nodes() :
+    for sommet in S.nodes():
         list_sommet.append(sommet)
     
     #la boucle continuera à fonctionner jusqu'à ce que tous les sommets soient recouverts de couleur
@@ -116,7 +123,7 @@ def glouton_naif(S) :
             treat_sommet = 0
             associate_color += 1
 
-def glouton(S) :
+def glouton(S):
     dict_sommet_degree            = {}
     list_sommet,list_sommet_color = [],[]
     associate_color               = 1
@@ -157,3 +164,43 @@ def glouton(S) :
 
             treat_sommet = 0
             associate_color += 1
+
+def sudoku_neighbors_check(S):
+    """
+    vérifie si le graphe si le sommet et le voisin ont la même couleur, 
+    renvoie False s'ils en ont et True sinon
+    """
+    for sommet in S.nodes:
+        for neighbors in nx.neighbors(S, sommet):
+            if S.nodes[neighbors]["color"] == S.nodes[sommet]["color"]:
+                return False
+    return True
+
+def color_check(S, sommet, color):
+    """
+    vérifie si le voisin d'un sommet donné ont la même couleur que dans le paramètre, 
+    False s'ils en ont et True sinon.
+    """
+    for neighbors in nx.neighbors(S, sommet):
+        if S.nodes[neighbors]["color"] == color:
+            return False
+    return True
+
+def sudoku_solver(S, sommet):
+    dict_sommet_degree            = {}
+    list_sommet,list_sommet_color = [],[]
+    associate_color               = 1
+    treat_sommet                  = 0
+    for sommet in S.nodes() :
+        dict_sommet_degree[sommet] = S.degree[sommet]
+    list_sommet = sorted(dict_sommet_degree.keys(), key = dict_sommet_degree.get, reverse = True)
+    while S.number_of_nodes() > len(list_sommet_color):
+        for i in nx.neighbors(S, list_sommet[treat_sommet]):
+
+            if treat_sommet == len(list_sommet):
+                for sommet in list_sommet_color:
+                    if sommet in list_sommet:
+                        list_sommet.remove(sommet)
+
+                treat_sommet = 0
+                associate_color += 1
