@@ -193,15 +193,16 @@ def sudoku_solver(G, sommet):
     et puis on recommence jusqu'a ce que le graphe soit complet. Si on tombe sur un cas ou on ne peut plus colorer le sudoku, 
     et que le sudoku n'est pas fini, on fait un return pour returner sur le graphe précédent.
     """
-    #
+    #vérifier que le sommet ne dépasse la longueur totale des sommets -1
+    #on doit ajouter le +1 sinon on va avoir un erreur (RecursionError: maximum recursion depth exceeded)
     if sommet > 80:
         G = sudoku_solver(G, (sommet % 9) + 1)
         return G
 
-    #
     if (sommet + 1) == G.number_of_nodes():
         if G.nodes[sommet]["color"] == 0:
             for color in range(1, 10):
+                #vérifie si le voisin d'un sommet donné ont la même couleur
                 if color_check(G, sommet, color):
                     G.nodes[sommet]["color"] = color
         return G
