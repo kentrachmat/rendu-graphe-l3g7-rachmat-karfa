@@ -167,7 +167,7 @@ def glouton(S):
 
 def check_sudoku_color(S):
     """
-    vérifie si le graphe si le sommet et le voisin ont la même couleur, 
+    vérifie dans une graphe si le sommet et leurs voisins ont la même couleur, 
     renvoie False s'ils en ont et True sinon
     """
     for sommet in S.nodes:
@@ -193,7 +193,7 @@ def sudoku_solver(G, sommet):
     et puis on recommence jusqu'a ce que le graphe soit complet. Si on tombe sur un cas ou on ne peut plus colorer le sudoku, 
     et que le sudoku n'est pas fini, on fait un return pour returner sur le graphe précédent.
     """
-    #vérifier que le sommet ne dépasse la longueur totale des sommets -1
+    #vérifier que le sommet actuel ne dépasse la longueur totale des sommets -1
     #on doit ajouter le +1 sinon on va avoir un erreur (RecursionError: maximum recursion depth exceeded)
     if sommet > 80:
         G = sudoku_solver(G, (sommet % 9) + 1)
@@ -202,21 +202,27 @@ def sudoku_solver(G, sommet):
     if (sommet + 1) == G.number_of_nodes():
         if G.nodes[sommet]["color"] == 0:
             for color in range(1, 10):
+
                 #vérifie si le voisin d'un sommet donné ont la même couleur
                 if color_check(G, sommet, color):
                     G.nodes[sommet]["color"] = color
+                    break
         return G
 
     if G.nodes[sommet]["color"] == 0:
         for color in range(1, 10):
+
+            #vérifie si le voisin d'un sommet donné ont la même couleur
             if color_check(G, sommet, color):
                 G.nodes[sommet]["color"] = color
                 G = sudoku_solver(G, sommet + 9)
+                
+                #vérifie dans une graphe si le sommet et leurs voisins ont la même couleur
                 if check_sudoku_color(G):
                     return G
-                G.nodes[sommet]["color"] = 0
+                else:
+                    G.nodes[sommet]["color"] = 0
     
     else:
-        #
         G = sudoku_solver(G, sommet + 9)
     return G

@@ -81,6 +81,7 @@ if __name__ == "__main__":
 
 
 
+
     """
     from operator import itemgetter
     data = sorted(openFile(), key=itemgetter(0,1))
