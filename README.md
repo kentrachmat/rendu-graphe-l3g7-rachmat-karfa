@@ -21,14 +21,16 @@ Ce travail est à réaliser en équipe dont les membres sont (**groupe 7 du S5 L
 ├── Rapport-KARFA-RACHMAT.docx
 ├── Rapport-KARFA-RACHMAT.pdf
 └── code
+    ├── functions.py
     ├── carte.py
-    ├── carte_data.txt
+    ├── data
+    │   ├── carte_data.txt
+    │   ├── gsm_data.txt
+    │   └── sudoku_data.txt
     ├── gsm.py
-    ├── gsm_data.txt
-    ├── sudoku.py
-    └── sudoku_data.txt
+    └── sudoku.py
 
-1 directory, 10 files
+2 directories, 11 files
 ```
 
 # Organisation du fichier
