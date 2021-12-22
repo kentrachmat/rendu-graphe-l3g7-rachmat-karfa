@@ -17,7 +17,7 @@ def main():
     S    = nx.Graph(data)  
     ans = 0
 
-    #définir la couleur par défaut sur tous les nœuds
+    #définir la couleur par défaut sur tous les sommet
     for sommet in S.nodes :
         S.nodes[sommet]["color"] = 0
 

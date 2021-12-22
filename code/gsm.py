@@ -17,7 +17,7 @@ def main():
     S    = nx.Graph(data)  
     ans = 0
 
-    #définir la couleur par défaut sur tous les nœuds
+    #définir la couleur par défaut sur tous les sommet
     for sommet in S.nodes :
         S.nodes[sommet]["color"] = 0
 
@@ -59,7 +59,7 @@ def main():
     ft.showGraph(S)
  
 if __name__ == "__main__":
-
+    
     #vérifier si les arguments sont corrects ou non
     if(len(sys.argv) != 5):
         print("Veuillez utiliser le bon format d'entrée !")

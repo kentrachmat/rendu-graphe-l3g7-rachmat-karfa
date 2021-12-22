@@ -1,34 +1,86 @@
-import sys
+import functions as ft
 import networkx as nx
-import matplotlib.pyplot as plt
-from operator import itemgetter
-
-
-def openFile():
-    data = []
-    for line in open('sudoku_data.txt', 'r').readlines():
-        try:
-            divise1 = line.split("\n")
-            divise2 = divise1[0].split(" ")
-            data.append( [int(i) for i in divise2])
-        except: 
-            sys.exit("Format donnee incorrecte !!")
-    return data
-
-def createFile(S):
-    with open('sudoku_answer.txt', 'w') as f:
-        for i in range(1,10):
-            for j in range(1,10):
-                f.write("{} {} {}\n".format(i,j,0))
-
-def showGraph(S, colors='lightgrey'):
-    nx.draw(S, node_size=400 ,with_labels=True, font_weight='bold', node_color=colors)
-    plt.show() 
+import time as tm
+import sys
 
 def main():
-    data = sorted(openFile(), key=itemgetter(0,1))
-    S = nx.empty_graph(81)
+    """
+    Cette fonction est appelée lorsque le programme est exécuté, 
+    elle lit les données et essaie de résoudre avec un algorithme choisi par l'utilisateur.
+    et il montrera le graph avec les couleurs distribuées en utilisant networkx
+    """
+    #lit les données du fichier txt et le transformer en liste de tuples
+    data = ft.openFileSudoku(sys.argv[2])
+    
+    #créer le graph sudoku  
+    S   = nx.sudoku_graph()  
+    ans = 0
+    
+    #définir la couleur par défaut sur tous les sommet
+    for sommet in S.nodes :
+        S.nodes[sommet]["color"] = 0
 
+
+    for i in range(1,10):
+        for j in range(1,10):
+            if(data[0][0] == i and data[0][1] == j):
+                colors.append(color_listes[ data[0][2] ])
+                del data[0]
+            else :
+                colors.append(color_listes[0])
+
+    ft.showGraph(S)
+
+    #menu pour l'utilisateur afin qu'il puisse choisir l'algorithme pour résoudre le problème 
+    while ans != "1" and ans != "2":
+        print("-- Veuillez choisir l'algorithme pour résoudre ce problème de sudoku --")
+        print("1. Glouton")
+        print("2. Glouton Naïf")
+        ans = input("input : ")
+
+    #enregistrer le temps (début)
+    debut   = tm.time()
+
+    #exécuter l'algorithme
+    if(ans == "1"):
+        ans = "Glouton"
+        ft.glouton(S)
+    else:
+        ans = "Glouton Naïf"
+        ft.glouton_naif(S)
+
+    #enregistrer le temps (fin)
+    fin     = tm.time()
+
+    #montrer à l'utilisateur les informations concernant l'algorithme, par exemple le temps pris, 
+    #le fichier de sortie et le graph
+    print("\nL'algorithme est fini vous avez choisi {}".format(ans))
+    print("La solution du problème est dans : {}".format(sys.argv[4]))
+    print("Les données du problème est dans : {}".format(sys.argv[2]))
+    print("Le temps de l'algorithme : {} s".format(round((fin - debut), 10)))
+    print("Le graphique sera affiché dans une nouvelle fenêtre")
+
+if __name__ == "__main__":
+
+    #vérifier si les arguments sont corrects ou non
+    if(len(sys.argv) != 5):
+        print("Veuillez utiliser le bon format d'entrée !")
+        print("> python3 sudoku.py -i [data/nom de les données].txt -o [nom de l'output].txt")
+        exit()
+
+    main()
+
+
+
+
+
+
+
+    """
+    from operator import itemgetter
+    data = sorted(openFile(), key=itemgetter(0,1))
+
+    S = nx.empty_graph(81)
     for i in range(9):
         for j in range(1, 9):
             for k in range(j):
@@ -56,20 +108,4 @@ def main():
                 del data[0]
             else :
                 colors.append(color_listes[0])
-    showGraph(S,colors)
-    #createFile(S)
-
-if __name__ == "__main__":
-    color_listes = {
-        1 : "blue",
-        2 : "red",
-        3 : "green",
-        4 : "orange",
-        5 : "yellow",
-        6 : "brown",
-        7 : "black",
-        8 : "pink",
-        9 : "purple",
-        0 : "grey"
-    }
-    main()
+    """
